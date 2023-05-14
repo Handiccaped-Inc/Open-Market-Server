@@ -42,4 +42,51 @@ public class CategoryService {
 
         return respuesta;
     }
+
+    public List<Category> findAllCategory() {
+        List<Category> category = new ArrayList<>();
+        category = repository.findAll();
+
+        return category;
+    }
+
+    public Category findCategoryById(Long id) {
+        return repository.findById(id);
+    }
+
+    public String deleteCategory(Long id) {
+        String respuesta;
+        if (repository.delete(id)) {
+            respuesta = "ok";
+        } else {
+            respuesta = "Error";
+        }
+
+        return respuesta;
+    }
+
+    public String editCategory(Long categoryId, Category category) {
+        String respuesta;
+
+        // Validate category
+        if (category == null || category.getName().isEmpty()) {
+            return "Error";
+        }
+
+        if (repository.edit(categoryId, category)) {
+            respuesta = "ok";
+        } else {
+            respuesta = "Error";
+        }
+
+        return respuesta;
+
+    }
+
+    public List<Category> findCategoryByName(String name) {
+        List<Category> category = new ArrayList<>();
+        category = repository.findByName(name);
+
+        return category;
+    }
 }
