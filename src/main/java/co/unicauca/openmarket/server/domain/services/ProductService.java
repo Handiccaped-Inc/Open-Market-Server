@@ -22,6 +22,7 @@ public class ProductService {
     public String save(Product product) {
 
         List<JsonError> errors = new ArrayList<>();
+        String respuesta;
 
         if(product.getName().isEmpty() || product.getDescription().isEmpty()){
             errors.add(new JsonError("400", "BAD_REQUEST","nombre,Descripcion son campos campo obligatorio. "));
@@ -31,10 +32,18 @@ public class ProductService {
             Gson gson = new Gson();
             String errorsJson = gson.toJson(errors);
             return errorsJson;
-        }     
+        } 
+        
+        if(repository.save(product)){
+            respuesta= "ok";
+        }else{
+            respuesta = "Error";
+        }
 
-        return repository.save(product);
+        return respuesta;
     }
+
+
 
 
 }
