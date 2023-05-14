@@ -42,6 +42,18 @@ public class OpenMarketHandler extends ServerHandler {
                     response = processPostProduct(protocolRequest);
 
                 }
+
+                if(protocolRequest.getAction().equals("get")){
+                    response = processFinbyIdProduct(protocolRequest);
+                }
+
+                if(protocolRequest.getAction().equals("findName")){
+                    response = processFindByNameProducts(protocolRequest);
+                }
+
+                if(protocolRequest.getAction().equals("delete")){
+                    response = processDeleteProducts(protocolRequest);
+                }
                 break;
         }
         return response;
@@ -79,6 +91,32 @@ public class OpenMarketHandler extends ServerHandler {
         }
     }
 
+    private String processDeleteProducts(Protocol protocolRequest) {
+        // Extraer la cedula del primer parámetro
+        Long Id = Long.parseLong(protocolRequest.getParameters().get(0).getValue());
+        Product product = productService.findById(Id);
+        if(product == null){
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        }else{
+            return productService.delete(Id);
+        }
+    }
+
+    private String processFindByNameProducts(Protocol protocolRequest) {
+        // Extraer la cedula del primer parámetro
+        List<Product> products;
+        String name = protocolRequest.getParameters().get(0).getValue();
+        products = productService.findByName(name);
+
+        if (products == null) {
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        } else {
+            return objectToJSON(products);
+        }
+    }
+
     private String processPostProduct(Protocol protocolRequest) {
         Product product = new Product();
         // Reconstruir el customer a partid de lo que viene en los parámetros
@@ -89,6 +127,18 @@ public class OpenMarketHandler extends ServerHandler {
         String response = productService.save(product);
 
         return response;
+    }
+
+    private String processFinbyIdProduct(Protocol protocolRequest){
+        Long Id = Long.parseLong(protocolRequest.getParameters().get(0).getValue());
+        Product product = productService.findById(Id);
+        if(product == null){
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        }else{
+            return objectToJSON(product);
+        }
+
     }
 
     public void setProductService(ProductService productService){

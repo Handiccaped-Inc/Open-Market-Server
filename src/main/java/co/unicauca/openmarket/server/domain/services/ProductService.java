@@ -43,6 +43,27 @@ public class ProductService {
         return respuesta;
     }
 
+    public synchronized List<Product> findByName(String Name){
+        return repository.findByName(Name);
+    }
+
+    public Product findById(Long id) {
+        Product product = repository.findById(id);
+        return product;
+
+    }
+
+    public String delete(Long id) {
+        if(repository.delete(id)){
+            return "Ok";
+        }else{
+            return "Error";
+        }
+        
+    }
+
+    
+
 
 
 

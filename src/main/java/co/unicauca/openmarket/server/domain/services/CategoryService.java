@@ -22,7 +22,6 @@ public class CategoryService {
     public String save(Category category) {
 
         List<JsonError> errors = new ArrayList<>();
-        String respuesta;
 
         if (category.getName().isEmpty()) {
             errors.add(new JsonError("400", "BAD_REQUEST", "Nombre debe ser obligatorio. "));
@@ -34,13 +33,7 @@ public class CategoryService {
             return errorsJson;
         }
 
-        if (repository.save(category)) {
-            respuesta = "ok";
-        } else {
-            respuesta = "Error";
-        }
-
-        return respuesta;
+        return "";
     }
 
     public List<Category> findAllCategory() {
