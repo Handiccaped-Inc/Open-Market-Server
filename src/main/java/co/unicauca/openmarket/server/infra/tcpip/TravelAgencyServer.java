@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.unicauca.travelagency.server.infra.tcpip;
+package co.unicauca.openmarket.server.infra.tcpip;
+import co.unicauca.openmarket.server.access.ProductRepositoryImplArrays;
+import co.unicauca.openmarket.server.domain.services.ProductService;
 
 import co.unicauca.strategyserver.infra.ServerSocketMultiThread;
-import co.unicauca.openmarket.server.access.CustomerRepositoryImplArrays;
-import co.unicauca.openmarket.server.domain.services.CustomerService;
+import co.unicauca.openmarket.server.domain.services.ProductService;
+
 import java.util.Scanner;
 
 /**
@@ -24,8 +26,8 @@ public class TravelAgencyServer {
         System.out.println("Ingrese el puerto de escucha");
         int port = teclado.nextInt();
         ServerSocketMultiThread myServer = new ServerSocketMultiThread(port);
-        TravelAgencyHandler myHandler = new TravelAgencyHandler();
-        myHandler.setService(new CustomerService(new CustomerRepositoryImplArrays()));
+        OpenMarketHandler myHandler = new OpenMarketHandler();
+        myHandler.setProductService(new ProductService(new ProductRepositoryImplArrays()));
         myServer.setServerHandler(myHandler);
         myServer.startServer();
     }

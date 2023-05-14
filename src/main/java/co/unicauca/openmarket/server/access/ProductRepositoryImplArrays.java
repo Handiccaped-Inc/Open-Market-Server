@@ -26,10 +26,11 @@ public class ProductRepositoryImplArrays implements IProductRepository {
 
 
     @Override
-    public boolean save(Product object) {
+    public String save(Product object) {
         // TODO Auto-generated method stub
+        object.setProductId((long)(Products.size()+1));
         Products.add(object);
-        return true;
+        return object.getProductId().toString();
     }
 
     @Override

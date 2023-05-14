@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface IRepository<T> {
 
-    boolean save(T object);
+    String save(T object);
 
     boolean edit(Long id, T object);
 

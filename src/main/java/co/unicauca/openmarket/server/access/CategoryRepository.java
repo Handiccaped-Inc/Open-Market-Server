@@ -30,11 +30,11 @@ public class CategoryRepository implements ICategoryRepository {
     }
 
     @Override
-    public boolean save(Category newcategory) {
+    public String save(Category newcategory) {
         try {
             // Validate Category
             if (newcategory == null || newcategory.getName().isEmpty()) {
-                return false;
+                return "";
             }
             // this.connect();
 
@@ -45,11 +45,11 @@ public class CategoryRepository implements ICategoryRepository {
             pstmt.setString(1, newcategory.getName());
             pstmt.executeUpdate();
             // this.disconnect();
-            return true;
+            return "ImplementarDevolverId";
         } catch (SQLException ex) {
             Logger.getLogger(CategoryRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return "";
     }
 
     @Override
