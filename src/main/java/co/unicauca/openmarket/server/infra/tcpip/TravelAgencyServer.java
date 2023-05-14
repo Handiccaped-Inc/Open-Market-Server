@@ -6,10 +6,9 @@
 package co.unicauca.travelagency.server.infra.tcpip;
 
 import co.unicauca.strategyserver.infra.ServerSocketMultiThread;
-import co.unicauca.travelagency.server.access.CustomerRepositoryImplArrays;
-import co.unicauca.travelagency.server.domain.services.CustomerService;
+import co.unicauca.openmarket.server.access.CustomerRepositoryImplArrays;
+import co.unicauca.openmarket.server.domain.services.CustomerService;
 import java.util.Scanner;
-
 
 /**
  *
@@ -30,5 +29,5 @@ public class TravelAgencyServer {
         myServer.setServerHandler(myHandler);
         myServer.startServer();
     }
-    
+
 }
