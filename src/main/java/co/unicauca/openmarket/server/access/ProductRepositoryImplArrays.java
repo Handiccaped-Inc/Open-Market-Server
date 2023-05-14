@@ -36,13 +36,30 @@ public class ProductRepositoryImplArrays implements IProductRepository {
     @Override
     public boolean edit(Long id, Product object) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'edit'");
+        for (Product product : Products) {
+            if(product.getProductId().equals(id)){
+                product.setProductId(object.getProductId());
+                product.setName(object.getName());
+                product.setDescription(object.getDescription());
+                product.setPrice(object.getPrice());
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public boolean delete(Long id) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        for (Product product : Products) {
+            if(product.getProductId().equals(id)){
+                return Products.remove(product);
+            }
+    
+        }
+
+        return false;
     }
 
     @Override
@@ -61,7 +78,14 @@ public class ProductRepositoryImplArrays implements IProductRepository {
     @Override
     public List<Product> findByName(String name) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByName'");
+        List<Product> ProductsFindName = new ArrayList<>();
+        for (Product product : Products) {
+            if(product.getName().equals(name)){
+                ProductsFindName.add(product);
+            }
+        }
+
+        return ProductsFindName;
     }
 
     @Override

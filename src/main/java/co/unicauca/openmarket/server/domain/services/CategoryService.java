@@ -33,6 +33,6 @@ public class CategoryService {
             return errorsJson;
         }
 
-        return repository.save(category);
+        return "";
     }
 }
