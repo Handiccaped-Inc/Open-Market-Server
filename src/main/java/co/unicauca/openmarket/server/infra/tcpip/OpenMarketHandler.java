@@ -84,7 +84,7 @@ public class OpenMarketHandler extends ServerHandler {
         // Reconstruir el customer a partid de lo que viene en los parámetros
         product.setName(protocolRequest.getParameters().get(0).getValue());
         product.setDescription(protocolRequest.getParameters().get(1).getValue());
-        product.setDescription(protocolRequest.getParameters().get(2).getValue());
+        product.setPrice(Double.parseDouble(protocolRequest.getParameters().get(2).getValue()));
 
         String response = productService.save(product);
 
