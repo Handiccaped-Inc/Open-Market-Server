@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.unicauca.openmarket.access;
+package co.unicauca.openmarket.server.access;
 
 import java.util.List;
 
