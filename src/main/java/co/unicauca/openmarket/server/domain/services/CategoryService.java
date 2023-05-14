@@ -15,10 +15,6 @@ public class CategoryService {
         this.repository = repository;
     }
 
-    public synchronized List<Category> findAll() {
-        return repository.findAll();
-    }
-
     public String save(Category category) {
 
         List<JsonError> errors = new ArrayList<>();
@@ -36,18 +32,18 @@ public class CategoryService {
         return "";
     }
 
-    public List<Category> findAllCategory() {
+    public List<Category> findAll() {
         List<Category> category = new ArrayList<>();
         category = repository.findAll();
 
         return category;
     }
 
-    public Category findCategoryById(Long id) {
+    public Category findById(Long id) {
         return repository.findById(id);
     }
 
-    public String deleteCategory(Long id) {
+    public String delete(Long id) {
         String respuesta;
         if (repository.delete(id)) {
             respuesta = "ok";
@@ -58,7 +54,7 @@ public class CategoryService {
         return respuesta;
     }
 
-    public String editCategory(Long categoryId, Category category) {
+    public String edit(Long categoryId, Category category) {
         String respuesta;
 
         // Validate category
@@ -76,7 +72,7 @@ public class CategoryService {
 
     }
 
-    public List<Category> findCategoryByName(String name) {
+    public List<Category> findByName(String name) {
         List<Category> category = new ArrayList<>();
         category = repository.findByName(name);
 

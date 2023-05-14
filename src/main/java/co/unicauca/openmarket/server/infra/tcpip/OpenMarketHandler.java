@@ -1,7 +1,9 @@
 package co.unicauca.openmarket.server.infra.tcpip;
 
+import co.unicauca.openmarket.server.domain.services.CategoryService;
 import co.unicauca.openmarket.server.domain.services.ProductService;
 import co.unicauca.strategyserver.infra.ServerHandler;
+import co.unicauca.openmarket.commons.domain.Category;
 import co.unicauca.openmarket.commons.domain.Product;
 import co.unicauca.openmarket.commons.infra.JsonError;
 import co.unicauca.openmarket.commons.infra.Protocol;
@@ -11,25 +13,22 @@ import java.security.Provider.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class OpenMarketHandler extends ServerHandler {
 
     private static ProductService productService;
+    private static CategoryService categoryService;
 
-    public OpenMarketHandler()
-    {
+    public OpenMarketHandler() {
 
     }
-
-
 
     @Override
     public String processRequest(String requestJson) {
         // TODO Auto-generated method stub
-        Gson gson = new Gson();  
+        Gson gson = new Gson();
         Protocol protocolRequest;
         protocolRequest = gson.fromJson(requestJson, Protocol.class);
-        String response="";
+        String response = "";
         switch (protocolRequest.getResource()) {
             case "product":
                 if (protocolRequest.getAction().equals("findAll")) {
@@ -38,21 +37,45 @@ public class OpenMarketHandler extends ServerHandler {
                 }
 
                 if (protocolRequest.getAction().equals("post")) {
-                    // Agregar un customer    
+                    // Agregar un customer
                     response = processPostProduct(protocolRequest);
 
                 }
 
-                if(protocolRequest.getAction().equals("get")){
+                if (protocolRequest.getAction().equals("get")) {
                     response = processFinbyIdProduct(protocolRequest);
                 }
 
-                if(protocolRequest.getAction().equals("findName")){
+                if (protocolRequest.getAction().equals("findName")) {
                     response = processFindByNameProducts(protocolRequest);
                 }
 
-                if(protocolRequest.getAction().equals("delete")){
+                if (protocolRequest.getAction().equals("delete")) {
                     response = processDeleteProducts(protocolRequest);
+                }
+                break;
+            case "category":
+                if (protocolRequest.getAction().equals("findAll")) {
+                    // Consultar un customer
+                    response = processGetAllCategories(protocolRequest);
+                }
+
+                if (protocolRequest.getAction().equals("post")) {
+                    // Agregar un customer
+                    response = processPostCategory(protocolRequest);
+
+                }
+
+                if (protocolRequest.getAction().equals("get")) {
+                    response = processFinbyIdCategory(protocolRequest);
+                }
+
+                if (protocolRequest.getAction().equals("findName")) {
+                    response = processFindByNameCategories(protocolRequest);
+                }
+
+                if (protocolRequest.getAction().equals("delete")) {
+                    response = processDeleteCategories(protocolRequest);
                 }
                 break;
         }
@@ -73,7 +96,7 @@ public class OpenMarketHandler extends ServerHandler {
         return errorsJson;
     }
 
-      /**
+    /**
      * Procesa la solicitud de consultar un customer
      *
      * @param protocolRequest Protocolo de la solicitud
@@ -95,10 +118,10 @@ public class OpenMarketHandler extends ServerHandler {
         // Extraer la cedula del primer parámetro
         Long Id = Long.parseLong(protocolRequest.getParameters().get(0).getValue());
         Product product = productService.findById(Id);
-        if(product == null){
+        if (product == null) {
             String errorJson = generateNotFoundErrorJson();
             return errorJson;
-        }else{
+        } else {
             return productService.delete(Id);
         }
     }
@@ -129,22 +152,78 @@ public class OpenMarketHandler extends ServerHandler {
         return response;
     }
 
-    private String processFinbyIdProduct(Protocol protocolRequest){
+    private String processFinbyIdProduct(Protocol protocolRequest) {
         Long Id = Long.parseLong(protocolRequest.getParameters().get(0).getValue());
         Product product = productService.findById(Id);
-        if(product == null){
+        if (product == null) {
             String errorJson = generateNotFoundErrorJson();
             return errorJson;
-        }else{
+        } else {
             return objectToJSON(product);
         }
 
     }
 
-    public void setProductService(ProductService productService){
+    private String processDeleteCategories(Protocol protocolRequest) {//
+        Long Id = Long.parseLong(protocolRequest.getParameters().get(0).getValue());
+        Category category = categoryService.findById(Id);
+        if (category == null) {
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        } else {
+            return categoryService.delete(Id);
+        }
+    }
+
+    private String processFindByNameCategories(Protocol protocolRequest) {//
+        // Extraer la cedula del primer parámetro
+        List<Category> categories;
+        String name = protocolRequest.getParameters().get(0).getValue();
+        categories = categoryService.findByName(name);
+
+        if (categories == null) {
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        } else {
+            return objectToJSON(categories);
+        }
+    }
+
+    private String processFinbyIdCategory(Protocol protocolRequest) {//
+        Long Id = Long.parseLong(protocolRequest.getParameters().get(0).getValue());
+        Category category = categoryService.findById(Id);
+        if (category == null) {
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        } else {
+            return objectToJSON(category);
+        }
+    }
+
+    private String processPostCategory(Protocol protocolRequest) {//
+        Category category = new Category();
+        // Reconstruir el customer a partid de lo que viene en los parámetros
+        category.setName(protocolRequest.getParameters().get(0).getValue());
+        String response = categoryService.save(category);
+        return response;
+    }
+
+    private String processGetAllCategories(Protocol protocolRequest) {//
+        // Extraer la cedula del primer parámetro
+        List<Category> categories;
+        categories = categoryService.findAll();
+
+        if (categories == null) {
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        } else {
+            return objectToJSON(categories);
+        }
+    }
+
+    public void setProductService(ProductService productService) {
         this.productService = productService;
 
     }
 
-    
 }
