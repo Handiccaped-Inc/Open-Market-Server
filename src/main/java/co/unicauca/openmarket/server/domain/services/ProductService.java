@@ -22,9 +22,9 @@ public class ProductService {
     public String save(Product product) {
 
         List<JsonError> errors = new ArrayList<>();
-        
-        if(product.getName().isEmpty() || product.getDescription().isEmpty() || (product.getPrice() == 0)){
-            errors.add(new JsonError("400", "BAD_REQUEST","nombre,Descripcion y precio son campos campo obligatorio. "));
+
+        if(product.getName().isEmpty() || product.getDescription().isEmpty()){
+            errors.add(new JsonError("400", "BAD_REQUEST","nombre,Descripcion son campos campo obligatorio. "));
         }
 
         if (!errors.isEmpty()) {
