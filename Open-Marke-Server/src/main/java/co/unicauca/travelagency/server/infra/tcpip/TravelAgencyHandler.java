@@ -6,9 +6,9 @@
 package co.unicauca.travelagency.server.infra.tcpip;
 
 import co.unicauca.strategyserver.infra.ServerHandler;
-import co.unicauca.travelagency.commons.domain.Customer;
-import co.unicauca.travelagency.commons.infra.JsonError;
-import co.unicauca.travelagency.commons.infra.Protocol;
+import co.unicauca.openmarket.commons.domain.Customer;
+import co.unicauca.openmarket.commons.infra.JsonError;
+import co.unicauca.openmarket.commons.infra.Protocol;
 import co.unicauca.travelagency.server.access.CustomerRepositoryImplArrays;
 import co.unicauca.travelagency.server.domain.services.CustomerService;
 import com.google.gson.Gson;

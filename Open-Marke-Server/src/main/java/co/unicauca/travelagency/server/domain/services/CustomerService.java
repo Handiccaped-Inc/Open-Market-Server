@@ -1,8 +1,8 @@
 package co.unicauca.travelagency.server.domain.services;
 
 import co.unicauca.travelagency.commons.domain.Customer;
-import co.unicauca.travelagency.commons.infra.JsonError;
-import co.unicauca.travelagency.commons.infra.Utilities;
+import co.unicauca.openmarket.commons.infra.JsonError;
+import co.unicauca.openmarket.commons.infra.Utilities;
 import co.unicauca.travelagency.server.access.ICustomerRepository;
 import com.google.gson.Gson;
 import java.util.ArrayList;

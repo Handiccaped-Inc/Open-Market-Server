@@ -35,8 +35,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>co.unicauca.travelagency.commons</groupId>
-            <artifactId>TravelAgency-commons</artifactId>
+            <groupId>co.unicauca.openmarket.commons</groupId>
+            <artifactId>Open-Market-Commons</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
