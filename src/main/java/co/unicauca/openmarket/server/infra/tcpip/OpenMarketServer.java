@@ -16,7 +16,7 @@ import java.util.Scanner;
  *
  * @author ahurtado
  */
-public class TravelAgencyServer {
+public class OpenMarketServer {
     /**
      * @param args the command line arguments
      */
