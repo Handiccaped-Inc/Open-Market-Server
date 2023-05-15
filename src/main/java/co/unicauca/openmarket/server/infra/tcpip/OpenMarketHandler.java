@@ -225,5 +225,8 @@ public class OpenMarketHandler extends ServerHandler {
         this.productService = productService;
 
     }
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
 
+    }
 }
