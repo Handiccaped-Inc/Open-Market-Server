@@ -5,6 +5,7 @@
  */
 package co.unicauca.openmarket.server.infra.tcpip;
 import co.unicauca.openmarket.server.access.CategoryRepository;
+import co.unicauca.openmarket.server.access.ProductRepository;
 import co.unicauca.openmarket.server.access.ProductRepositoryImplArrays;
 import co.unicauca.openmarket.server.domain.services.CategoryService;
 import co.unicauca.openmarket.server.domain.services.ProductService;
@@ -29,7 +30,7 @@ public class OpenMarketServer {
         int port = teclado.nextInt();
         ServerSocketMultiThread myServer = new ServerSocketMultiThread(port);
         OpenMarketHandler myHandler = new OpenMarketHandler();
-        myHandler.setProductService(new ProductService(new ProductRepositoryImplArrays()));
+        myHandler.setProductService(new ProductService(new ProductRepository()));
         myHandler.setCategoryService(new CategoryService(new CategoryRepository()));
         myServer.setServerHandler(myHandler);
         myServer.startServer();
