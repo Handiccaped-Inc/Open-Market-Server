@@ -94,6 +94,12 @@ public class ProductRepositoryImplArrays implements IProductRepository {
         return Products;
     }
 
+    @Override
+    public List<Product> findByCategoryID(Long id) {
+        // TODO Auto-generated method stub
+        return Products;
+    }
+
 
 
     

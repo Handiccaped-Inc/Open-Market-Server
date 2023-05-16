@@ -1,5 +1,6 @@
 package co.unicauca.openmarket.server.access;
 import co.unicauca.openmarket.commons.infra.Utilities;
+import java.util.List;
 
 /**
  * Fabrica que se encarga de instanciar un repositorio concreto

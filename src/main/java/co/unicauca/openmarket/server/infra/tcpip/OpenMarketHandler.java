@@ -50,6 +50,11 @@ public class OpenMarketHandler extends ServerHandler {
                     response = processFindByNameProducts(protocolRequest);
                 }
 
+                
+                if (protocolRequest.getAction().equals("findCategory")) {
+                    response = processfindByCategoryIdProducts(protocolRequest);
+                }
+
                 if (protocolRequest.getAction().equals("delete")) {
                     response = processDeleteProducts(protocolRequest);
                 }
@@ -106,6 +111,30 @@ public class OpenMarketHandler extends ServerHandler {
         List<Product> products;
         products = productService.findAll();
 
+        for (Product product : products) {
+            Category category = categoryService.findById(product.getCategory().getCategoryId());
+            product.setCategory(category);
+        }
+
+        if (products == null) {
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        } else {
+            return objectToJSON(products);
+        }
+    }
+
+    private String processfindByCategoryIdProducts(Protocol protocolRequest) {
+        // Extraer la cedula del primer parámetro
+        List<Product> products;
+        products = productService.findByCategoryId(Long.parseLong(protocolRequest.getParameters().get(0).getValue()));
+        System.out.println(protocolRequest.getParameters().get(0).getValue());
+
+        for (Product product : products) {
+            Category category = categoryService.findById(product.getCategory().getCategoryId());
+            product.setCategory(category);
+        }
+
         if (products == null) {
             String errorJson = generateNotFoundErrorJson();
             return errorJson;
@@ -132,6 +161,11 @@ public class OpenMarketHandler extends ServerHandler {
         String name = protocolRequest.getParameters().get(0).getValue();
         products = productService.findByName(name);
 
+        for (Product product : products) {
+            Category category = categoryService.findById(product.getCategory().getCategoryId());
+            product.setCategory(category);
+        }
+        
         if (products == null) {
             String errorJson = generateNotFoundErrorJson();
             return errorJson;
@@ -146,6 +180,14 @@ public class OpenMarketHandler extends ServerHandler {
         product.setName(protocolRequest.getParameters().get(0).getValue());
         product.setDescription(protocolRequest.getParameters().get(1).getValue());
         product.setPrice(Double.parseDouble(protocolRequest.getParameters().get(2).getValue()));
+        Category category = categoryService.findById(Long.parseLong(protocolRequest.getParameters().get(3).getValue()));
+
+        if (category == null) {
+            String errorJson = generateNotFoundErrorJson();
+            return errorJson;
+        }
+
+        product.setCategory(category);
 
         String response = productService.save(product);
 
@@ -155,7 +197,9 @@ public class OpenMarketHandler extends ServerHandler {
     private String processFinbyIdProduct(Protocol protocolRequest) {
         Long Id = Long.parseLong(protocolRequest.getParameters().get(0).getValue());
         Product product = productService.findById(Id);
-        if (product == null) {
+        Category category = categoryService.findById(product.getCategory().getCategoryId());
+        product.setCategory(category);
+        if (product == null || category == null) {
             String errorJson = generateNotFoundErrorJson();
             return errorJson;
         } else {

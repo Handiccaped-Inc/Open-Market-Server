@@ -47,6 +47,12 @@ public class ProductService {
         return repository.findByName(Name);
     }
 
+    
+    public synchronized List<Product> findByCategoryId(Long id){
+        System.out.println(id);
+        return repository.findByCategoryID(id);
+    }
+
     public Product findById(Long id) {
         Product product = repository.findById(id);
         return product;

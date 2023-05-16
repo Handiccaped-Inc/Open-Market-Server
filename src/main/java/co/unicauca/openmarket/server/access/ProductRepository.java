@@ -1,5 +1,6 @@
 package co.unicauca.openmarket.server.access;
 
+import co.unicauca.openmarket.commons.domain.Category;
 import co.unicauca.openmarket.commons.domain.Product;
 
 import java.sql.Connection;
@@ -33,12 +34,13 @@ public class ProductRepository implements IProductRepository  {
             }
             //this.connect();
 
-            String sql = "INSERT INTO products ( name, description) "
-                    + "VALUES ( ?, ? )";
+            String sql = "INSERT INTO products ( name, description,categoryid) "
+                    + "VALUES ( ?, ?,?)";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, newProduct.getName());
             pstmt.setString(2, newProduct.getDescription());
+            pstmt.setLong(3, newProduct.getCategory().getCategoryId());
             pstmt.executeUpdate();
             //this.disconnect();
             return true;
@@ -63,6 +65,7 @@ public class ProductRepository implements IProductRepository  {
                 newProduct.setProductId(rs.getLong("productId"));
                 newProduct.setName(rs.getString("name"));
                 newProduct.setDescription(rs.getString("description"));
+                newProduct.setCategory(new Category(rs.getLong("categoryid"),""));
 
                 products.add(newProduct);
             }
@@ -185,6 +188,7 @@ public class ProductRepository implements IProductRepository  {
                 prod.setProductId(res.getLong("productId"));
                 prod.setName(res.getString("name"));
                 prod.setDescription(res.getString("description"));
+                prod.setCategory(new Category(res.getLong("categoryid"),""));
                 return prod;
             } else {
                 return null;
@@ -215,6 +219,7 @@ public class ProductRepository implements IProductRepository  {
                 newProduct.setProductId(res.getLong("productId"));
                 newProduct.setName(res.getString("name"));
                 newProduct.setDescription(res.getString("description"));
+                newProduct.setCategory(new Category(res.getLong("categoryid"),""));
                 products.add(newProduct);
             }
             //this.disconnect();
@@ -223,6 +228,36 @@ public class ProductRepository implements IProductRepository  {
             Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return products;
+    }
+
+    @Override
+    public List<Product> findByCategoryID(Long id) {
+         try {
+     
+        List<Product> products = new ArrayList<>();
+
+        String sql = "SELECT * FROM products WHERE categoryid = ?";
+
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setLong(1, id);
+
+        ResultSet res = pstmt.executeQuery();
+
+        while (res.next()) {
+            Product prod = new Product();
+            prod.setProductId(res.getLong("productId"));
+            prod.setName(res.getString("name"));
+            prod.setDescription(res.getString("description"));
+            prod.setCategory(new Category(res.getLong("categoryid"),""));
+            products.add(prod);
+        }
+        
+        
+        return products;
+    } catch (SQLException ex) {
+        Logger.getLogger(ProductRepository.class.getName()).log(Level.SEVERE, null, ex);
+        return null;
+    }
     }
 
 }
