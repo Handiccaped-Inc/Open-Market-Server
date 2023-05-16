@@ -19,6 +19,15 @@ public class ProductService {
         return repository.findAll();
     }
 
+    public String edit(Long id, Product product){
+        if(repository.edit(id, product)){
+            return "ok";
+        }else{
+            return "Error";
+        }
+
+    }
+
     public String save(Product product) {
 
         List<JsonError> errors = new ArrayList<>();

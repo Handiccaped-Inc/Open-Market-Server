@@ -58,6 +58,10 @@ public class OpenMarketHandler extends ServerHandler {
                 if (protocolRequest.getAction().equals("delete")) {
                     response = processDeleteProducts(protocolRequest);
                 }
+
+                if (protocolRequest.getAction().equals("update")) {
+                    response = processEditProducts(protocolRequest);
+                }
                 break;
             case "category":
                 if (protocolRequest.getAction().equals("findAll")) {
@@ -141,6 +145,17 @@ public class OpenMarketHandler extends ServerHandler {
         } else {
             return objectToJSON(products);
         }
+    }
+
+    private String processEditProducts(Protocol protocolRequest) {
+        // Extraer la cedula del primer parámetro
+        Long Id = Long.parseLong(protocolRequest.getParameters().get(0).getValue());
+        Product product = new Product();
+        product.setName(protocolRequest.getParameters().get(1).getValue());
+        product.setDescription(protocolRequest.getParameters().get(2).getValue());
+        product.setPrice(Double.parseDouble(protocolRequest.getParameters().get(3).getValue()));
+        return productService.edit(Id, product);
+        
     }
 
     private String processDeleteProducts(Protocol protocolRequest) {
